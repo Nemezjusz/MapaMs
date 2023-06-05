@@ -1,84 +1,132 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Mapa MS</title>
-        <link rel="stylesheet" href="/templates/style.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/darkly/bootstrap.min.css" integrity="sha256-VZi/r/RC1MritcGE2Yyxb/ACi8WIOj1Y7BHuslF8+6I=" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        
-        
-    </head>
-    <body>
-        <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Mapa MS</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
-                <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">Offcanvas</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                  <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                          <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                  <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                  </form>
-                </div>
-              </div>
+<head>
+    <meta charset="utf-8">
+    <title>Mapa MS</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/darkly/bootstrap.min.css" integrity="sha256-VZi/r/RC1MritcGE2Yyxb/ACi8WIOj1Y7BHuslF8+6I=" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+      .map-container {
+          position: relative;
+          overflow: scroll;
+      }
+
+      #marker {
+          position: absolute;
+          display: none;
+          width: 30px;
+          height: 30px;
+      }
+
+      .rounded-green-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 200px;
+          height: 60px;
+          background-color: green;
+          color: white;
+          font-size: 18px;
+          border-radius: 30px;
+          text-decoration: none;
+      }
+      .rounded-grey-button {
+        display: flex;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          margin-left: 200px;
+          width: 150px;
+          height: 50px;
+          background-color: rgb(104, 102, 102);
+          color: white;
+          font-size: 18px;
+          border-radius: 30px;
+          text-decoration: none;
+      }
+      .rounded-green-button + .rounded-green-button {
+          margin-left: 200px;
+          width: 150px;
+          height: 50px;
+          background-color: rgb(39, 0, 180);
+      }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Mapa MS</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">Offcanvas</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-        </nav>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Login
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </nav>
 
-        <!-- <div class="overflow-scroll container">
-            <img src="mapatest4.png" alt="Responsive Image" id="myElement">
-        </div> -->
+    <div class="map-container">
+      <img src="mapatest4.png" alt="Responsive Image" id="mapa">
+      <img src="pin3.png" id="marker">
+    </div>
+    <a href="#" class="rounded-green-button" id="button">Set location</a>
+    <a href="#" class="rounded-grey-button" id="secondButton">Choose event</a>
 
-        <img src="mapatest4.png" alt="Responsive Image" id="mapa" style="height: 100vh; display: flex;">
-        <img src="pin.png" id="marker" style="display: none; position: absolute; width: 250px; height: 250px;" />
-        <script>
-        var element = document.getElementById("mapa");
+    <script>
+      var buttonClicked = false;
 
-        element.addEventListener("click", function(event) {
-            var x = event.clientX;
-            var y = event.clientY;
-            with(document.getElementById('marker')) {
-                style.left = x;
-                style.top = y;
-                style.display = 'block';
-            }
-
-            console.log("Coordinates: " + x + ", " + y);
+      $(document).ready(function() {
+        $('#button').click(function(event) {
+          event.preventDefault();
+          buttonClicked = true;
+          $('#secondButton').removeClass('rounded-grey-button').addClass('rounded-green-button');
+          $('#secondButton').removeAttr('disabled');
         });
+      });
+    </script>
 
-        </script>
+    <script src="markerPlacement.js"></script>
 
-        
-
-    </body>
+</body>
 </html>
+
 
