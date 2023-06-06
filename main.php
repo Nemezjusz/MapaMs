@@ -2,72 +2,29 @@
 
 if (!defined('IN_INDEX')) { exit("This file can only be included in index.php."); }
 
-/*
-* Przykład 1: dodanie danych do tabeli za pomocą metody POST
-*
-* W tym przykładzie odbieramy pola "name" i "surname" z formularza, przeprowadzamy ich walidację, a następnie dodajemy
-* nowy wpis do księgi gości. Na końcu pobieramy wszystkie dane z bazy danych i wyświetlamy je w formie tabeli.
-*
-* Krótkie przypomnienie na temat metod HTTP:
-* Aby skorzystać z przekazania danych metodą POST i odebrać dane z formularza, należy ustawić atrybut "method"
-* w elemencie <form> na wartość "POST". Dane nie są wówczas przekazywane w adresie URL tak jak w metodzie GET,
-* ale przesyłane są w ciele zapytania, na poziomie protokołu HTTP (jest to niewidoczne dla użytkownika). Metoda
-* POST według domyślnych konfiguracji serwerów www pozwala na przesyłanie większej liczby znaków niż metoda GET,
-* oraz danych niestandardowych, takich jak na przykład pliki. Z tego powodu formularze HTML idealnie współgrają
-* z tą metoda. Należy jednak zauważyć, że atrybut "method" możemy również ustawić na "GET", wówczas pola z formularza
-* zostaną doklejone do adresu URL podanego w atrybucie "action".
-*
-* Dostęp do danych przekazanych metodą POST jest możliwy za pomocą tablicy superglobalnej $_POST.
-*/
 
-// if (isset($_POST['name']) && isset($_POST['surname'])) {
-//     $name = $_POST['name'];
-//     $surname = $_POST['surname'];
+if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc_x']) && isset($_COOKIE['loc_y'])) {
+    $author_name = $_POST['name'];
+    $description = $_POST['description'];
+    $loc_x = $_COOKIE['loc_x'];
+    $loc_y = $_COOKIE['loc_y'];
 
-//     // Podane imię i nazwisko muszą mieć od 2 do 50 znaków.
-//     if (mb_strlen($name) >= 2 && mb_strlen($name) <= 50 && mb_strlen($surname) >= 2 && mb_strlen($surname) <= 50) {
+    if (mb_strlen($author_name) >= 2 && mb_strlen($author_name) <= 50 && mb_strlen($description) >= 2 && mb_strlen($description) <= 50) {
 
-//         /*
-//          * W celu wykonania zapytania do bazy danych posłużymy się wcześniej utworzonym obiektem PDO, który trzymamy
-//          * w singletonie DB (plik helpers.inc.php). Metoda "prepare" pozwala "przygotować" dowolne zapytanie i zwraca
-//          * obiekt klasy PDOStatement, który reprezentuje to zapytanie. Więcej o tej klasie możesz przeczytać na stronie:
-//          * https://www.php.net/manual/en/class.pdostatement.php
-//          * Przygotowane zapytanie możemy wykonać za pomocą metody "execute". Metoda ta nie przyjmuje argumentów
-//          * lub przyjmuje jako argument tablicę wszystkich danych, które mają zostać wstawione do zapytania.
-//          * W tym przypadku będą to :name oraz :surname.
-//          *
-//          * Proces przypisania danych do zmiennych w metodzie "execute" nazywamy bindowaniem. Możnaby więc zapytać
-//          * po co to robimy, jeżeli za pomocą prostej konkatenacji ciągów tekstowych (za pomocą kropki) moglibyśmy
-//          * wstawić zmienne $name oraz $surname prosto do ciągu zapytania w metodzie "prepare". Jeżeli dane pochodzą
-//          * z zewnątrz, na przykład od użytkownika strony, zachodzi ryzyko, że będą tak spreparowane, że ich wstawienie
-//          * do zapytania zmieni jego treść na tyle, że spowoduje ono zupełnie inne skutki w bazie danych niż planował
-//          * programista. Atak tego typu nazywa się SQL injection. Z tego powodu biblioteka PDO oferuje nam mechanizm
-//          * bindowania, w którym danych nie wstawiamy wprost w zapytaniu, a zamiast tego wymyślamy własne nazwy
-//          * tymczasowe poprzedzone dwukropkiem, a następnie do tych nazw przypisujemy dane w metodzie "execute".
-//          * Takie nazwy możemy bezpiecznie używać w zapytaniu. PDO samo zadba o to, aby oczyścić dane z niebezpiecznych
-//          * znaków i wstawić je w wybranych miejscach do zapytania.
-//          *
-//          * Bindowanie występuje również w innych językach programowania. Nie jest to konstrukt pochodzący z PHP.
-//          * Warto zrozumieć o co w nim chodzi.
-//          *
-//          * Słowo "name" jest tzw. keywordem - ma specjalne znaczenie w bazie MySQL. Z tego powodu używamy backticków `,
-//          * aby przekazać w zapytaniu, że chodzi nam o kolumnę o takiej nazwie.
-//          */
-//         $stmt = DB::getInstance()->prepare("INSERT INTO test (`name`, surname) VALUES (:name, :surname)");
-//         $stmt->execute([
-//             ':name' => $name,
-//             ':surname' => $surname
-//         ]);
+        $stmt = DB::getInstance()->prepare("INSERT INTO pins (loc_x, loc_y, `desc`, author_name) VALUES (:loc_x, :loc_y, :descriptio, :author_name)");
+        $stmt->execute([
+            ':loc_x' => $loc_x,
+            ':loc_y' => $loc_y,
+            ':descriptio' => $description,
+            ':author_name' => $author_name
+        ]);
 
-//         /*
-//          * Dodanie komunikatu, który wyświetli się w ramce nad treścią tej podstrony. Więcej informacji na temat
-//          * wyświetlania komunikatów znajdziesz w pliku helpers.inc.php.
-//          */
-//         TwigHelper::addMsg('Row has been added.', 'success');
-//     } else {
-//         TwigHelper::addMsg('Incorrect data.', 'error');
-//     }
-// }
+        
+        TwigHelper::addMsg('Row has been added.', 'success');
+    } else {
+        TwigHelper::addMsg('Incorrect data.', 'error');
+    }
+}
 
 /*
  * Pobieramy wszystkie wiersze z tabeli "test". Po wykonaniu zapytania możemy skorzystać z metody "fetchAll",
@@ -77,7 +34,7 @@ if (!defined('IN_INDEX')) { exit("This file can only be included in index.php.")
  * gdzie pierwszy poziom to lista wierszy, a drugi to kolumny danego wiersza.
  */
 
-$stmt = DB::getInstance()->prepare("SELECT id, `name`, surname FROM test");
+$stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
 $stmt->execute();
 $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -151,9 +108,9 @@ $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-// /*
-//  * Wyrenderowanie podstrony z przekazaniem do niej tablic wynikowych z trzech przykładów.
-//  */
+/*
+ * Wyrenderowanie podstrony z przekazaniem do niej tablic wynikowych z trzech przykładów.
+ */
 print TwigHelper::getInstance()->render('main.html', [
     'example1' => $example1,
     // 'example2' => $example2,
