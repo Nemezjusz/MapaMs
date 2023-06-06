@@ -13,7 +13,12 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).ready(function() {
       $('#button').click(function(event) {
         event.preventDefault();
-        buttonClicked = true;
+        console.log("button clicked")
+        if (buttonClicked = false){
+          buttonClicked = true;
+        } else {
+          buttonClicked = false;
+        }
       });
     });
   
@@ -29,13 +34,19 @@ document.addEventListener("DOMContentLoaded", function() {
     element.addEventListener("click", placeMarker);
     element.addEventListener("touchstart", placeMarker);
   
+
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
     function startDragging(event) {
       isDragging = true;
       offsetX = getPageX(event) - marker.getBoundingClientRect().left;
       offsetY = getPageY(event) - marker.getBoundingClientRect().top;
     }
-  
-
   
     function stopDragging() {
       isDragging = false;
@@ -47,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
           var containerRect = element.getBoundingClientRect();
           var x = getPageX(event) - containerRect.left - offsetX + scrollX;
           var y = getPageY(event) - containerRect.top - offsetY + scrollY;
-      
+          
           marker.style.left = x + "px";
           marker.style.top = y + "px";
         }
@@ -58,11 +69,16 @@ document.addEventListener("DOMContentLoaded", function() {
           var containerRect = element.getBoundingClientRect();
           var x = getPageX(event) - containerRect.left + scrollX;
           var y = getPageY(event) + scrollY;
-      
+          //zeby oprazek pojawial sie w srodku klikniecia
+          x -= 15;
+          y -= 15;
           marker.style.left = x + "px";
           marker.style.top = y + "px";
           marker.style.display = "block";
-      
+
+          setCookie("loc_x", x, 1)
+          setCookie("loc_y", y, 1)
+
           console.log("Coordinates: " + x + ", " + y);
         }
     }
