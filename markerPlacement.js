@@ -1,7 +1,15 @@
 document.addEventListener("DOMContentLoaded", function() {
     var element = document.getElementById("mapa");
     var marker = document.getElementById("marker");
-  
+    var ratio = 1080 / (element.clientHeight);
+
+    // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    // if (isMobile) {
+    //   var ratio = 1080 / (window.screen.availHeight+50);
+    // } else{
+    //   var ratio = 1080 / (window.screen.availHeight);
+    // }
+
     var isDragging = false;
     var offsetX = 0;
     var offsetY = 0;
@@ -33,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
   
     element.addEventListener("click", placeMarker);
     element.addEventListener("touchstart", placeMarker);
-  
 
     function setCookie(cname, cvalue, exdays) {
       const d = new Date();
@@ -64,23 +71,29 @@ document.addEventListener("DOMContentLoaded", function() {
         }
       }
       
-      function placeMarker(event) {
-        if (!buttonClicked) {
-          var containerRect = element.getBoundingClientRect();
-          var x = getPageX(event) - containerRect.left + scrollX;
-          var y = getPageY(event) + scrollY;
-          //zeby oprazek pojawial sie w srodku klikniecia
-          x -= 15;
-          y -= 15;
-          marker.style.left = x + "px";
-          marker.style.top = y + "px";
-          marker.style.display = "block";
+    function placeMarker(event) {
+      if (!buttonClicked) {
+        var containerRect = element.getBoundingClientRect();
+        var x = getPageX(event) - containerRect.left + scrollX;
+        var y = getPageY(event) + scrollY;
+        //zeby oprazek pojawial sie w srodku klikniecia
+        x -= 10;
+        y -= 10;
+        marker.style.left = x + "px";
+        marker.style.top = y + "px";
+        marker.style.display = "block";
 
-          setCookie("loc_x", x, 1)
-          setCookie("loc_y", y, 1)
+        console.log(window.screen.availHeight, window.screen.availWidth);
 
-          console.log("Coordinates: " + x + ", " + y);
-        }
+        var x_alterd = x * ratio
+        var y_alterd = y * ratio
+
+        setCookie("loc_x", x_alterd, 1)
+        setCookie("loc_y", y_alterd, 1)
+
+        console.log("Coordinates: " + x + ", " + y);
+        console.log("Uni Coordinates: " + x_alterd + ", " + y_alterd);
+      }
     }
   
     function getPageX(event) {
@@ -115,4 +128,3 @@ document.addEventListener("DOMContentLoaded", function() {
       marker.style.top = markerY + scrollY + "px";
     });
   });
-  

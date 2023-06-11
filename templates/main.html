@@ -16,7 +16,7 @@
     <!-- navbar -->
     <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Mapa MS</a>
+          <a class="navbar-brand" href="#">MSka</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -56,8 +56,8 @@
         </div>
     </nav>
 
-    <!-- modal -->
-    <div class="modal" id="myModal">
+    <!-- modal 1-->
+    {# <div class="modal" id="myModal">
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
     
@@ -73,13 +73,13 @@
               <div class="form-group row">
                 <label for="inputName3" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-auto">
-                  <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+                  <input type="text" id="inputName" placeholder="Name" name="name">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
                 <div class="col-auto">
-                  <input type="text" class="form-control" id="inputDescription" placeholder="Description" name="description">
+                  <input type="text" id="inputDescription" placeholder="Description" name="description">
                 </div>
               </div>
           
@@ -92,22 +92,112 @@
           </form>
         </div>
       </div>
-    </div>    
+    </div>     #}
+    
+    <!-- modal 2-->
+    {# <div class="container px-5 my-5 modal" id="myModal">
+      <form action="" method="POST">
+          <div class="mb-3">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-control" id="inputName" type="text" placeholder="Name" data-sb-validations="required" name="name"/>
+          </div>
+          <div class="mb-3">
+              <label class="form-label" for="description">Description</label>
+              <textarea class="form-control" id="inputDescription" type="text" placeholder="Description" style="height: 10rem;" data-sb-validations="required" name="description"></textarea>
+          </div>
+          
+          <div class="d-grid">
+              <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+              <button type="button" class="btn btn-danger btn-lg" data-bs-dismiss="container px-5 my-5 modal">Close</button>
 
-    <!-- mapa -->
-    <div class="map-container">
-      <img src="mapatest4.png" alt="Responsive Image" id="mapa">
-      <img src="pin3.png" id="marker">
+          </div>
+      </form>
+    </div> #}
+    
+    <!-- modal 3-->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Save Location</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <form action="" method="POST">
+            <div class="modal-body">
+              <div class="mb-3">
+                {# <label for="inputName" class="form-label">Name</label> #}
+                <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+              </div>
+              <div class="mb-3">
+                {# <label for="inputDescription" class="form-label">Description</label> #}
+                <textarea class="form-control" id="inputDescription" type="text" placeholder="Description" style="height: 10rem;"  name="description"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+    
+    
+    
+    <!-- mapa -->
+      <div class="map-container" id="map-container">
+        <img src="mapatest4.png" alt="Responsive Image" id="mapa">
+        <img src="pin3.png" id="marker" class="marker">
+        
+        {% for row in example1 %}
+          
+          {# {{('<img src="pin3.png" class="marker" id="marker'~row.id~'" data-toggle="modal" data-target="#myModal" style= "width: 20px; height: 20px;">')|raw}} #}
+          {{('<img src="pin3.png" class="marker" id="marker'~row.id~'" onclick="showPopup('~row.id~')">')|raw}} 
+          
+          {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
+            <p>ID: {{row.id}}</p>
+            <p>Imie: {{row.author_name}}</p>
+            <p>Opis: {{row.desc}}</p>
+            {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}} 
+          </div>
+
+          {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
+          <script>
+            
+            // wyśrodkowanie obrazka
+            var img = document.getElementById('mapa');
+            document.getElementById("map-container").scrollLeft = 0.43*img.clientWidth;
+            
+            var ratio = 1080 / (img.clientHeight);
+            var x = '{{row.loc_x}}';
+            var y = '{{row.loc_y}}';
+            var id = '{{row.id}}';
+            console.log("ratio: "+ ratio);
+            var marker = document.getElementById("marker"+String(id))
+            marker.style.left = (x/ratio) + "px";
+            marker.style.top = (y/ratio) + "px";
+
+
+            function showPopup(id) {
+              var popup = document.getElementById("popup"+String(id));
+              popup.style.display = "block";
+            }
+
+            function hidePopup(id) {
+              var popup = document.getElementById("popup"+String(id));
+              popup.style.display = "none";
+            }
+            
+          </script>
+          
+        {% endfor %}
+        
+      </div>
+
+    <script src="markerPlacement.js"></script>
     
     <!-- przycisk -->
     <button type="button" class="rounded-green-button" data-bs-toggle="modal" data-bs-target="#myModal">Set location</button>
-
-    <script src="markerPlacement.js"></script>
-
-
-    
-    
 
 </body>
 </html>

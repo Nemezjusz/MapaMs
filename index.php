@@ -1,6 +1,21 @@
 <?php
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();  
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['postdata'] = $_POST;
+    unset($_POST);
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit;
+    }
+    
+if (@$_SESSION['postdata']){
+    $_POST=$_SESSION['postdata'];
+    unset($_SESSION['postdata']);
+}
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 

@@ -19,7 +19,7 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
             ':author_name' => $author_name
         ]);
 
-        
+        $_POST = array();
         TwigHelper::addMsg('Row has been added.', 'success');
     } else {
         TwigHelper::addMsg('Incorrect data.', 'error');
