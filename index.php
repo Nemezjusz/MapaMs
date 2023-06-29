@@ -32,7 +32,7 @@ include("config.inc.php");
 include("helpers.inc.php");
 
 
-$allowed_pages = ['main'];
+$allowed_pages = ['main', 'generated_links'];
 
 if (isset($_GET['page'])
     && $_GET['page']

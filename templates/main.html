@@ -48,8 +48,11 @@
                 </li>
               </ul>
               <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <form action="" method="POST">
+                  <input type="text" name="search" placeholder="Name">
+                  <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+                
               </form>
             </div>
           </div>
@@ -93,7 +96,7 @@
         </div>
       </div>
     </div>     #}
-    
+
     <!-- modal 2-->
     {# <div class="container px-5 my-5 modal" id="myModal">
       <form action="" method="POST">
@@ -134,7 +137,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" name="submit" value="link" class="btn btn-primary">Link</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </form>
@@ -163,20 +167,17 @@
 
           {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
           <script>
-            
-            // wyśrodkowanie obrazka
             var img = document.getElementById('mapa');
             document.getElementById("map-container").scrollLeft = 0.43*img.clientWidth;
-            
+
             var ratio = 1080 / (img.clientHeight);
             var x = '{{row.loc_x}}';
             var y = '{{row.loc_y}}';
             var id = '{{row.id}}';
-            console.log("ratio: "+ ratio);
+
             var marker = document.getElementById("marker"+String(id))
             marker.style.left = (x/ratio) + "px";
             marker.style.top = (y/ratio) + "px";
-
 
             function showPopup(id) {
               var popup = document.getElementById("popup"+String(id));
@@ -187,8 +188,9 @@
               var popup = document.getElementById("popup"+String(id));
               popup.style.display = "none";
             }
-            
+
           </script>
+          
           
         {% endfor %}
         

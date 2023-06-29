@@ -97,21 +97,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   
     function getPageX(event) {
-        if (event.touches && event.touches.length) {
-          return event.touches[0].pageX;
-        } else {
-          return event.pageX;
-        }
+      if (event.touches && event.touches.length) {
+        return event.touches[0].pageX;
+      } else {
+        return event.pageX;
       }
+    }
       
-      function getPageY(event) {
-        if (event.touches && event.touches.length) {
-          return event.touches[0].pageY;
-        } else {
-          return event.pageY;
-        }
+    function getPageY(event) {
+      if (event.touches && event.touches.length) {
+        return event.touches[0].pageY;
+      } else {
+        return event.pageY;
       }
-      
+    }
+    
   
     element.addEventListener("scroll", function() {
       scrollX = element.scrollLeft;

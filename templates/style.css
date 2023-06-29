@@ -39,7 +39,7 @@ html, body {
     transform: translateX(-50%);
     width: 200px;
     height: 60px;
-    background-color: purple;
+    background-color: #212529;
     color: white;
     font-size: 18px;
     border-radius: 30px;

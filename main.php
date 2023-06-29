@@ -4,25 +4,37 @@ if (!defined('IN_INDEX')) { exit("This file can only be included in index.php.")
 
 
 if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc_x']) && isset($_COOKIE['loc_y'])) {
-    $author_name = $_POST['name'];
-    $description = $_POST['description'];
-    $loc_x = $_COOKIE['loc_x'];
-    $loc_y = $_COOKIE['loc_y'];
+    if ($_POST['submit'] == "submit"){
+        $author_name = $_POST['name'];
+        $description = $_POST['description'];
+        $loc_x = $_COOKIE['loc_x'];
+        $loc_y = $_COOKIE['loc_y'];
 
-    if (mb_strlen($author_name) >= 2 && mb_strlen($author_name) <= 50 && mb_strlen($description) >= 2 && mb_strlen($description) <= 50) {
+        if (mb_strlen($author_name) >= 2 && mb_strlen($author_name) <= 50 && mb_strlen($description) >= 2 && mb_strlen($description) <= 100) {
 
-        $stmt = DB::getInstance()->prepare("INSERT INTO pins (loc_x, loc_y, `desc`, author_name) VALUES (:loc_x, :loc_y, :descriptio, :author_name)");
+            $stmt = DB::getInstance()->prepare("INSERT INTO pins (loc_x, loc_y, `desc`, author_name) VALUES (:loc_x, :loc_y, :descriptio, :author_name)");
+            $stmt->execute([
+                ':loc_x' => $loc_x,
+                ':loc_y' => $loc_y,
+                ':descriptio' => $description,
+                ':author_name' => $author_name
+            ]);
+
+            $_POST = array();
+            // TwigHelper::addMsg('Row has been added.', 'success');
+        // } else {
+        //     TwigHelper::addMsg('Incorrect data.', 'error');
+        }
+    }
+    elseif ($_POST['submit'] == "link"){
+        $stmt = DB::getInstance()->prepare("INSERT INTO links (loc_x, loc_y) VALUES (:loc_x, :loc_y)");
         $stmt->execute([
             ':loc_x' => $loc_x,
             ':loc_y' => $loc_y,
-            ':descriptio' => $description,
-            ':author_name' => $author_name
+
         ]);
 
         $_POST = array();
-        TwigHelper::addMsg('Row has been added.', 'success');
-    } else {
-        TwigHelper::addMsg('Incorrect data.', 'error');
     }
 }
 
@@ -34,10 +46,17 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
  * gdzie pierwszy poziom to lista wierszy, a drugi to kolumny danego wiersza.
  */
 
-$stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
-$stmt->execute();
-$example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ if (isset($_GET['link'])) {
 
+    $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins WHERE id = :link_id");
+    $stmt->execute([':link_id' => intval($_GET['link'])]);
+    $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+} else {
+    $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
+    $stmt->execute();
+    $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 /*
@@ -106,13 +125,9 @@ $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // $stmt->execute();
 // $example3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-
 /*
  * Wyrenderowanie podstrony z przekazaniem do niej tablic wynikowych z trzech przykładów.
  */
 print TwigHelper::getInstance()->render('main.html', [
     'example1' => $example1,
-    // 'example2' => $example2,
-    // 'example3' => $example3
 ]);
