@@ -11,50 +11,62 @@
 
   </head>
 <body>
-    <!-- mapa -->
-      <div class="map-container" id="map-container">
-        <img src="images/mapatest4.png" alt="Responsive Image" id="mapa">
+  <nav class="navbar navbar-dark fixed-top bg-dark"> 
+    <div class="container-fluid">
+      <span class="navbar-text">
         {% for row in rows %}
-          
-          {{('<img src="images/pin3.png" class="marker" id="marker'~row.id~'" onclick="showPopup('~row.id~')">')|raw}} 
-          
-          {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
-            <p>ID: {{row.id}}</p>
-            <p>Imie: {{row.author_name}}</p>
-            <p>Opis: {{row.desc}}</p>
-            {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}} 
-          </div>
-
-          {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
-          <script>
-            var img = document.getElementById('mapa');
-            document.getElementById("map-container").scrollLeft = 0.43*img.clientWidth;
-
-            var ratio = 1080 / (img.clientHeight);
-            var x = '{{row.loc_x}}';
-            var y = '{{row.loc_y}}';
-            var id = '{{row.id}}';
-
-            var marker = document.getElementById("marker"+String(id))
-            marker.style.left = (x/ratio) + "px";
-            marker.style.top = (y/ratio) + "px";
-
-            function showPopup(id) {
-              var popup = document.getElementById("popup"+String(id));
-              popup.style.display = "block";
-            }
-
-            function hidePopup(id) {
-              var popup = document.getElementById("popup"+String(id));
-              popup.style.display = "none";
-            }
-
-          </script>
-          
-          
+          <a href="http://localhost/mapams/generated_links?link={{row.link_id}}">http://localhost/mapams/generated_links?link={{row.link_id}}</a>
         {% endfor %}
+      </span>
+    
+    </div>
+  </nav>
+
+  <!-- mapa -->
+  <div class="map-container" id="map-container">
+    <img src="images/mapatest4.png" alt="Responsive Image" id="mapa">
+    {% for row in rows %}
+      
+      {{('<img src="images/pin3.png" class="marker" id="marker'~row.link_id~'">')|raw}} 
+      
+      {# {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
+        <p>Imie: {{row.author_name}}</p>
+        <p>Opis: {{row.desc}}</p>
+        {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}} 
+      </div> #}
+
+      {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
+      <script>
+        var img = document.getElementById('mapa');
         
-      </div>
+
+        var ratio = 1080 / (img.clientHeight);
+        var x = '{{row.loc_x}}';
+        var y = '{{row.loc_y}}';
+        var id = '{{row.link_id}}';
+
+        var marker = document.getElementById("marker"+String(id))
+        marker.style.left = (x/ratio) + "px";
+        marker.style.top = (y/ratio) + "px";
+        
+        document.getElementById("map-container").scrollLeft = x/ratio-screen.width*0.5;
+        
+        // function showPopup(id) {
+        //   var popup = document.getElementById("popup"+String(id));
+        //   popup.style.display = "block";
+        // }
+
+        // function hidePopup(id) {
+        //   var popup = document.getElementById("popup"+String(id));
+        //   popup.style.display = "none";
+        // }
+
+      </script>
+      
+      
+    {% endfor %}
+    
+  </div>
 
 </body>
 </html>

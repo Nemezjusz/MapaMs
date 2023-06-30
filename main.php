@@ -5,36 +5,46 @@ if (!defined('IN_INDEX')) { exit("This file can only be included in index.php.")
 
 if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc_x']) && isset($_COOKIE['loc_y'])) {
     if ($_POST['submit'] == "submit"){
-        $author_name = $_POST['name'];
+        
         $description = $_POST['description'];
-        $loc_x = $_COOKIE['loc_x'];
-        $loc_y = $_COOKIE['loc_y'];
+        $author_name = $_POST['name'];
 
         if (mb_strlen($author_name) >= 2 && mb_strlen($author_name) <= 50 && mb_strlen($description) >= 2 && mb_strlen($description) <= 100) {
 
             $stmt = DB::getInstance()->prepare("INSERT INTO pins (loc_x, loc_y, `desc`, author_name) VALUES (:loc_x, :loc_y, :descriptio, :author_name)");
             $stmt->execute([
-                ':loc_x' => $loc_x,
-                ':loc_y' => $loc_y,
-                ':descriptio' => $description,
-                ':author_name' => $author_name
+                ':loc_x' => $_COOKIE['loc_x'],
+                ':loc_y' => $_COOKIE['loc_y'],
+                ':descriptio' => $_POST['description'],
+                ':author_name' => $_POST['name'],
             ]);
 
             $_POST = array();
-            // TwigHelper::addMsg('Row has been added.', 'success');
+        //     TwigHelper::addMsg('Row has been added.', 'success');
         // } else {
         //     TwigHelper::addMsg('Incorrect data.', 'error');
         }
     }
     elseif ($_POST['submit'] == "link"){
-        $stmt = DB::getInstance()->prepare("INSERT INTO links (loc_x, loc_y) VALUES (:loc_x, :loc_y)");
+        
+        $alph = "0123456789abcdefghijklmnopqrstuvwxyz";
+        $link_id='';
+        for($i=0;$i<5;$i++){
+            $link_id .= $alph[rand(0, 35)];
+        }
+        
+        
+        $stmt = DB::getInstance()->prepare("INSERT INTO links (link_id, loc_x, loc_y) VALUES (:link_id, :loc_x, :loc_y)");
         $stmt->execute([
-            ':loc_x' => $loc_x,
-            ':loc_y' => $loc_y,
-
+            ':link_id' => $link_id,
+            ':loc_x' => $_COOKIE['loc_x'],
+            ':loc_y' => $_COOKIE['loc_y'],
         ]);
-
         $_POST = array();
+
+        header("Location: http://localhost/mapams/generated_links?link=" . $link_id);
+        
+        
     }
 }
 

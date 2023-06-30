@@ -3,13 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var marker = document.getElementById("marker");
     var ratio = 1080 / (element.clientHeight);
 
-    // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    // if (isMobile) {
-    //   var ratio = 1080 / (window.screen.availHeight+50);
-    // } else{
-    //   var ratio = 1080 / (window.screen.availHeight);
-    // }
-
     var isDragging = false;
     var offsetX = 0;
     var offsetY = 0;
@@ -57,19 +50,23 @@ document.addEventListener("DOMContentLoaded", function() {
   
     function stopDragging() {
       isDragging = false;
+      console.log(window.screen.availHeight, window.screen.availWidth);
+
+      console.log("Coordinates: " + x + ", " + y);
     }
   
     function moveMarker(event) {
-        if (!buttonClicked && isDragging) {
-          event.preventDefault();
-          var containerRect = element.getBoundingClientRect();
-          var x = getPageX(event) - containerRect.left - offsetX + scrollX;
-          var y = getPageY(event) - containerRect.top - offsetY + scrollY;
-          
-          marker.style.left = x + "px";
-          marker.style.top = y + "px";
-        }
+      if (!buttonClicked && isDragging) {
+        event.preventDefault();
+        var containerRect = element.getBoundingClientRect();
+        var x = getPageX(event) - containerRect.left - offsetX + scrollX;
+        var y = getPageY(event) - containerRect.top - offsetY + scrollY;
+        
+        marker.style.left = x + "px";
+        marker.style.top = y + "px";
+
       }
+    }
       
     function placeMarker(event) {
       if (!buttonClicked) {

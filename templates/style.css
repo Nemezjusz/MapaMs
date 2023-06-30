@@ -2,6 +2,8 @@ html, body {
     height: 100vh;
     color: #e5e5e5;
     background-color: #212121;
+    border-right: 2px solid #212529;
+    border-left: 2px solid #212529;
 }
 
 .map-container {
@@ -29,7 +31,7 @@ html, body {
     height: 20px;
 }
 
-.rounded-green-button {
+.rounded-dark-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,9 +57,9 @@ html, body {
     background-color: #fff;
     border-radius: 5px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow:  0 .5rem 1rem rgba(black, .15);
     max-width: 400px;
-    width: 90%;
+    width: 95%;
     z-index: 999; /* Set a high z-index value to keep the popup on top */
 }
 
@@ -73,9 +75,10 @@ html, body {
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    float: right;
     
 }
 
-.popup button:hover {
+/* .popup button:hover {
     background-color: #45a049;
-}
+} */
