@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Mapa MS</title>
+    <title>MSka</title>
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"> 
     <link rel="stylesheet" href="templates/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -136,9 +136,11 @@
               </div>
             </div>
             <div class="modal-footer">
+              
+              <button type="submit" name="submit" value="link" class="btn btn-dark">Generate Link</button>
               <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
-              <button type="submit" name="submit" value="link" class="btn btn-primary">Link</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
             </div>
           </form>
         </div>
@@ -147,73 +149,73 @@
     
     
     <!-- mapa -->
-      <div class="map-container" id="map-container">
-        <img src="images/mapatest4.png" alt="Responsive Image" id="mapa">
-        <img src="images/pin3.png" id="marker" class="marker">
-        
-        {% for row in example1 %}
-          
-          {# {{('<img src="pin3.png" class="marker" id="marker'~row.id~'" data-toggle="modal" data-target="#myModal" style= "width: 20px; height: 20px;">')|raw}} #}
-          {{('<img src="images/pin3.png" class="marker" id="marker'~row.id~'" onclick="showPopup('~row.id~')">')|raw}} 
-  
-          {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
-            <div>
-              <h4 class="modal-title">Description</h4>
-            </div>
+    <div class="map-container" id="map-container">
+      <img src="images/mapatest4.png" alt="Responsive Image" id="mapa">
+      <img src="images/pin4.png" id="marker" class="marker">
       
-            <div>
-              <div class="mb-3">
-                <p>Imie: {{row.author_name}}</p>
-              </div>
-              
-              <div class="mb-3">
-                <p>Opis: {{row.desc}}</p>
-              </div>
-            </div>
-
-            <div >
-              {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}}
-            </div>
-          
-          </div>
-          
-
-
-          {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
-          <script>
-            var img = document.getElementById('mapa');
-            document.getElementById("map-container").scrollLeft = 0.43*img.clientWidth;
-
-            var ratio = 1080 / (img.clientHeight);
-            var x = '{{row.loc_x}}';
-            var y = '{{row.loc_y}}';
-            var id = '{{row.id}}';
-
-            var marker = document.getElementById("marker"+String(id))
-            marker.style.left = (x/ratio) + "px";
-            marker.style.top = (y/ratio) + "px";
-
-            function showPopup(id) {
-              var popup = document.getElementById("popup"+String(id));
-              popup.style.display = "block";
-            }
-
-            function hidePopup(id) {
-              var popup = document.getElementById("popup"+String(id));
-              popup.style.display = "none";
-            }
-
-          </script>
-          
-          
-        {% endfor %}
+      {% for row in example1 %}
         
-      </div>
+        {# {{('<img src="pin2.png" class="marker" id="marker'~row.id~'" data-toggle="modal" data-target="#myModal" style= "width: 20px; height: 20px;">')|raw}} #}
+        {{('<img src="images/pin3.png" class="marker" id="marker'~row.id~'" onclick="showPopup('~row.id~')">')|raw}} 
+
+        {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
+          
+    
+          <div>
+            <div class="mb-3">
+              <p>Name: {{row.author_name}}</p>
+            </div>
+            
+            <div class="mb-3">
+              <p>Description: {{row.desc}}</p>
+            </div>
+          </div>
+
+          <div >
+            {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}}
+          </div>
+        
+        </div>
+        
+
+
+        {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
+        <script>
+          var img = document.getElementById('mapa');
+          document.getElementById("map-container").scrollLeft = 0.43*img.clientWidth;
+
+          var ratio = 1080 / (img.clientHeight);
+          var x = '{{row.loc_x}}';
+          var y = '{{row.loc_y}}';
+          var id = '{{row.id}}';
+
+          var marker = document.getElementById("marker"+String(id))
+          marker.style.left = (x/ratio) + "px";
+          marker.style.top = (y/ratio) + "px";
+
+          function showPopup(id) {
+            var popup = document.getElementById("popup"+String(id));
+            popup.style.display = "block";
+          }
+
+          function hidePopup(id) {
+            var popup = document.getElementById("popup"+String(id));
+            popup.style.display = "none";
+          }
+
+        </script>
+        
+        
+      {% endfor %}
+      
+    </div>
+    
+    <!-- przycisk -->
+    <button type="button" id="loc_button" class="rounded-dark-button" data-bs-toggle="modal" data-bs-target="#myModal">Set location</button>
 
     <script src="markerPlacement.js"></script>
     
-    <!-- przycisk -->
-    <button type="button" class="rounded-dark-button" data-bs-toggle="modal" data-bs-target="#myModal">Set location</button>
+    
 
 </body>
 </html>
