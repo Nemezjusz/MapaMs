@@ -42,7 +42,7 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
         ]);
         $_POST = array();
 
-        header("Location: http://192.168.0.18/mapams/generated_links?link=" . $link_id);
+        header("Location: http://192.168.0.18/mapams/generated?link=" . $link_id);
         die();
         // generated_links?link=
         

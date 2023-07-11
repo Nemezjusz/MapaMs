@@ -82,3 +82,17 @@ html, body {
 /* .popup button:hover {
     background-color: #45a049;
 } */
+
+.icon-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .icon-link span {
+    margin-right: 10px; /* Adjust the spacing between the text and icon */
+  }
+  
+  .icon-link i {
+    margin-left: auto;
+  }

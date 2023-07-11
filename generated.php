@@ -12,6 +12,6 @@ if (isset($_GET['link'])) {
     $rows = 0;
 }
 
-print TwigHelper::getInstance()->render('generated_link.html', [
+print TwigHelper::getInstance()->render('generated.html', [
     'rows' => $rows,
 ]);
