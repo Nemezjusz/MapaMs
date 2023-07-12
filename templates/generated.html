@@ -45,13 +45,6 @@
       
       {{('<img src="images/pin3.png" class="marker" id="marker'~row.link_id~'">')|raw}} 
       
-      {# {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
-        <p>Imie: {{row.author_name}}</p>
-        <p>Opis: {{row.desc}}</p>
-        {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}} 
-      </div> #}
-
-      {# style="left: '~row.loc_x~'px; top: '~row.loc_y~'px #}
       <script>
         var img = document.getElementById('mapa');
         
@@ -66,20 +59,14 @@
         marker.style.top = (y/ratio) + "px";
         
         document.getElementById("map-container").scrollLeft = x/ratio-screen.width*0.5;
-        
-        // function showPopup(id) {
-        //   var popup = document.getElementById("popup"+String(id));
-        //   popup.style.display = "block";
-        // }
-
-        // function hidePopup(id) {
-        //   var popup = document.getElementById("popup"+String(id));
-        //   popup.style.display = "none";
-        // }
 
       </script>
       
-      
+      <form action="main">
+        <input type="submit"  class="rounded-dark-button" value="Go Back" />
+      </form>
+    
+
     {% endfor %}
     
   </div>

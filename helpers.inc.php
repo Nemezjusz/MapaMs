@@ -10,22 +10,10 @@ if (!defined('IN_INDEX')) { exit("This file can only be included in index.php.")
  * https://www.php.net/manual/en/reserved.variables.server.php
  */
 function get_domain(): string {
-    /*
-     * Dane w tablicy $_SERVER nie zawsze można bezpiecznie wyświetlić na stronie, ponieważ część z nich pochodzi
-     * od użytkownika (przeglądarki). W ten sposób użytkownicy strony mogliby potencjalnie wstrzykiwać w naszą stronę
-     * złośliwy kod JavaScript (poczytaj o atakach XSS). Aby tego uniknąć zmienne należy oczyścić - w tym przypadku
-     * użyto funkcji preg_replace, która za pomocą wyrażenia regularnego wyrzuca z ciągu znaków wszystko co nie jest
-     * literami, cyframi i znakiem kropki. Warto zwrócić uwagę, że biblioteka szablonów Twig dodatkowo wykorzystuje
-     * escapowanie danych (więcej o nim w pliku main.php), które rownież chroni nas przed tego typu atakami.
-     */
     $domena = preg_replace('/[^a-zA-Z0-9\.]/', '', $_SERVER['HTTP_HOST']);
     return $domena;
 }
 
-/*
- * Klasa DB zadba o utworzenie połączenia do bazy danych podczas pierwszego wywołania metody "getInstance" i będzie
- * zwracać obiekt połączenia na żądanie z dowolnego miejsca aplikacji.
- */
 class DB {
     private static $dbh = null; // tutaj będziemy przechowywać obiekt PDO
 
@@ -65,11 +53,7 @@ class DB {
     }
 }
 
-/*
- * Klasa TwigHelper zadba o utworzenie obiektu biblioteki Twig podczas pierwszego wywołania metody "getInstance"
- * i będzie zwracać ten obiekt na żądanie z dowolnego miejsca aplikacji. Dodatkowo pomoże nam zautomatyzować proces
- * wyświetlania komunikatów w szablonach.
- */
+
 class TwigHelper {
     private static $twig = null; // tutaj będziemy przechowywać obiekt Twiga
     private static $msg = []; // tutaj będziemy przechowywać komunikaty do wyświetlenia w szablonie base.html
@@ -108,6 +92,108 @@ class TwigHelper {
         return self::$msg;
     }
 }
+
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Http;
+use Microsoft\Graph\Model;
+use GuzzleHttp\Client;
+
+class GraphHelper {
+    private static Client $tokenClient;
+    private static string $clientId = '';
+    private static string $tenantId = '';
+    private static string $graphUserScopes = '';
+    private static Graph $userClient;
+    private static string $userToken;
+
+    public static function initializeGraphForUserAuth(): void {
+        GraphHelper::$tokenClient = new Client();
+        GraphHelper::$clientId = $_ENV['CLIENT_ID'];
+        GraphHelper::$tenantId = $_ENV['TENANT_ID'];
+        GraphHelper::$graphUserScopes = $_ENV['GRAPH_USER_SCOPES'];
+        GraphHelper::$userClient = new Graph();
+    }
+
+    public static function getUserToken(): string {
+        // If we already have a user token, just return it
+        // Tokens are valid for one hour, after that it needs to be refreshed
+        if (isset(GraphHelper::$userToken)) {
+            return GraphHelper::$userToken;
+        }
+    
+        // https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-device-code
+        $deviceCodeRequestUrl = 'https://login.microsoftonline.com/'.GraphHelper::$tenantId.'/oauth2/v2.0/devicecode';
+        $tokenRequestUrl = 'https://login.microsoftonline.com/'.GraphHelper::$tenantId.'/oauth2/v2.0/token';
+    
+        // First POST to /devicecode
+        $deviceCodeResponse = json_decode(GraphHelper::$tokenClient->post($deviceCodeRequestUrl, [
+            'form_params' => [
+                'client_id' => GraphHelper::$clientId,
+                'scope' => GraphHelper::$graphUserScopes
+            ]
+        ])->getBody()->getContents());
+        
+        var_dump($deviceCodeResponse);
+        // Display the user prompt
+        print($deviceCodeResponse->user_code.PHP_EOL);
+        header("Location: https://microsoft.com/devicelogin" . $deviceCodeResponse->user_code.PHP_EOL );    
+        
+    
+        // Response also indicates how often to poll for completion
+        // And gives a device code to send in the polling requests
+        $interval = (int)$deviceCodeResponse->interval;
+        $device_code = $deviceCodeResponse->device_code;
+    
+        // Do polling - if attempt times out the token endpoint
+        // returns an error
+        while (true) {
+            sleep($interval);
+    
+            // POST to the /token endpoint
+            $tokenResponse = GraphHelper::$tokenClient->post($tokenRequestUrl, [
+                'form_params' => [
+                    'client_id' => GraphHelper::$clientId,
+                    'grant_type' => 'urn:ietf:params:oauth:grant-type:device_code',
+                    'device_code' => $device_code
+                ],
+                // These options are needed to enable getting
+                // the response body from a 4xx response
+                'http_errors' => false,
+                'curl' => [
+                    CURLOPT_FAILONERROR => false
+                ]
+            ]);
+    
+            if ($tokenResponse->getStatusCode() == 200) {
+                // Return the access_token
+                $responseBody = json_decode($tokenResponse->getBody()->getContents());
+                GraphHelper::$userToken = $responseBody->access_token;
+                return $responseBody->access_token;
+            } else if ($tokenResponse->getStatusCode() == 400) {
+                // Check the error in the response body
+                $responseBody = json_decode($tokenResponse->getBody()->getContents());
+                if (isset($responseBody->error)) {
+                    $error = $responseBody->error;
+                    // authorization_pending means we should keep polling
+                    if (strcmp($error, 'authorization_pending') != 0) {
+                        throw new Exception('Token endpoint returned '.$error, 100);
+                    }
+                }
+            }
+        }
+    }
+
+    public static function getUser(): Model\User {
+        $token = GraphHelper::getUserToken();
+        GraphHelper::$userClient->setAccessToken($token);
+    
+        return GraphHelper::$userClient->createRequest('GET', '/me?$select=displayName,mail,userPrincipalName')
+                                       ->setReturnType(Model\User::class)
+                                       ->execute();
+    }
+
+}
+
 
 // Konfigurujemy Twiga tak, aby w każdym szablonie była dostępna stała CONFIG, funkcja get_domain(),
 // oraz metoda TwigHelper::getMsg (pod nazwą get_msg), bez konieczności ręcznego przekazywania ich podczas renderowania.

@@ -44,31 +44,25 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
 
         header("Location: http://192.168.0.18/mapams/generated?link=" . $link_id);
         die();
-        // generated_links?link=
+        
         
     }
 }
 
-/*
- * Pobieramy wszystkie wiersze z tabeli "test". Po wykonaniu zapytania możemy skorzystać z metody "fetchAll",
- * aby pobrać wszystkie wyniki z bazy danych na raz, w formie tablicy, a następnie przypisać je do zmiennej $example1.
- * Stała "PDO::FETCH_ASSOC", podana w argumencie, powoduje, że każdy z pobranych wierszy będzie tablicą asocjacyjną,
- * gdzie kluczem jest nazwa kolumny z bazy danych. Mamy więc tutaj do czynienia z tablicą dwuwymiarową (tablica tablic),
- * gdzie pierwszy poziom to lista wierszy, a drugi to kolumny danego wiersza.
- */
 
- if (isset($_GET['link'])) {
 
-    $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins WHERE id = :link_id");
-    $stmt->execute([':link_id' => intval($_GET['link'])]);
-    $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-} else {
-    $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
-    $stmt->execute();
-    $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+use myPHPnotes\Microsoft\Auth;
+use myPHPnotes\Microsoft\Handlers\Session;
+use myPHPnotes\Microsoft\Models\User;
+
+if (isset($_GET['code'])){
+    $auth = new Auth(Session::get("tenant_id"), Session::get("client_id"), Session::get("client_secret"), Session::get("redirect_uri"), Session::get("scopes"));
+    $tokens = $auth->getToken($_REQUEST['code'], $_REQUEST['state']);
+    $accessToken = $tokens->access_token;
+    $auth->setAccessToken($accessToken);
+    $user = new User;
 }
-
 
 /*
  * Przykład 2: pobranie z bazy danych tylko osób o wskazanym imieniu i powiększenie wszystkich liter nazwiska
@@ -139,6 +133,11 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
 /*
  * Wyrenderowanie podstrony z przekazaniem do niej tablic wynikowych z trzech przykładów.
  */
-print TwigHelper::getInstance()->render('main.html', [
+
+ $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
+ $stmt->execute();
+ $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+ print TwigHelper::getInstance()->render('main.html', [
     'example1' => $example1,
 ]);

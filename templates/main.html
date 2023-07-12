@@ -12,8 +12,8 @@
 
   </head>
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
+    <!-- navbar 1 -->
+    {# <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">MSka</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
@@ -56,6 +56,24 @@
             </div>
           </div>
         </div>
+    </nav> #}
+    <!-- navbar 2 -->
+    
+    <nav class="navbar navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="images/favicon.ico" width="30" height="30" class="d-inline-block align-text-top">
+          MSka
+        </a>
+
+        <span class="navbar-text">
+          <form action="signin.php">
+            <input class="btn btn-sm btn-outline-light" type="submit" value="Log in">
+          </form>
+          {# <a class="nav-link" href="signin.php">Login</a> #}
+        </span>
+        
+      </div>
     </nav>
 
     <!-- modal 1-->
@@ -150,7 +168,7 @@
     
     <!-- mapa -->
     <div class="map-container" id="map-container">
-      <img src="images/mapatest4.png" alt="Responsive Image" id="mapa">
+      <img src="images/mapatest3.png" alt="Responsive Image" id="mapa">
       <img src="images/pin4.png" id="marker" class="marker">
       
       {% for row in example1 %}
