@@ -58,20 +58,32 @@
         </div>
     </nav> #}
     <!-- navbar 2 -->
-    
-    <nav class="navbar navbar-dark fixed-top bg-dark">
+    {#  #}
+    <nav class="navbar navbar-dark fixed-top bg-dark"> 
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="images/favicon.ico" width="30" height="30" class="d-inline-block align-text-top">
           MSka
         </a>
-
         <span class="navbar-text">
-          <form action="signin.php">
-            <input class="btn btn-sm btn-outline-light" type="submit" value="Log in">
-          </form>
-          {# <a class="nav-link" href="signin.php">Login</a> #}
+          {{username}}
         </span>
+        {% if username != "" %}
+          <span class="navbar-text">
+            <button type="button" id="loc_button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModal2">Groups</button>
+            {# <a class="nav-link" href="signin.php">Login</a> #}
+          </span>
+        {% else %}
+          <span class="navbar-text">
+            <form action="signin.php">
+              <input class="btn btn-sm btn-outline-light" type="submit" value="Log in">
+            </form>
+            {# <a class="nav-link" href="signin.php">Login</a> #}
+          </span>
+        {% endif %}
+        
+
+        
         
       </div>
     </nav>
@@ -165,6 +177,47 @@
       </div>
     </div>
     
+    <!-- modal 4-->
+    <div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Groups</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h2 class="fs-5">Create or join new group</h2>
+            <p>
+              <form action="groups.php" method="POST">
+                <div class="btn-group d-flex" role="group" aria-label="Basic outlined example">
+                  <button type="submit" name="submit" value="join" class="btn btn-outline-secondary">Join</button>
+                  <button type="submit" name="submit" value="create" class="btn btn-outline-secondary">Create</button>
+                </div>
+              </form>
+            </p>
+            <hr>
+            <h2 class="fs-5">My groups</h2>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">Public</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">?</label>
+            </div>
+            
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
     
     <!-- mapa -->
     <div class="map-container" id="map-container">
@@ -178,17 +231,18 @@
 
         {{('<div id="popup'~row.id~'" class="popup">')|raw}} 
           
-    
+          
           <div>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Event</h1>
+            <hr>
             <div class="mb-3">
-              <p>Name: {{row.author_name}}</p>
+              <p>{{row.author_name}}</p>
             </div>
-            
             <div class="mb-3">
-              <p>Description: {{row.desc}}</p>
+              <p>{{row.desc}}</p>
             </div>
           </div>
-
+          <hr>
           <div >
             {{('<button onclick="hidePopup('~row.id~')">Close</button>')|raw}}
           </div>
@@ -232,7 +286,6 @@
     <button type="button" id="loc_button" class="rounded-dark-button" data-bs-toggle="modal" data-bs-target="#myModal">Set location</button>
 
     <script src="markerPlacement.js"></script>
-    
     
 
 </body>
