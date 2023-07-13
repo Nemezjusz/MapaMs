@@ -9,10 +9,7 @@ $provider = new Stevenmaguire\OAuth2\Client\Provider\Microsoft([
 ]);
 
 
-
 // Try to get an access token (using the authorization code grant)
-
-
 
 $token = $provider->getAccessToken('authorization_code', [
     'code' => $_GET['code']
@@ -22,20 +19,19 @@ $token = $provider->getAccessToken('authorization_code', [
 
 //     // We got an access token, let's now get the user's details
 $user =  $provider->getResourceOwner($token);
+$username = $user->getFirstname();
+$usermail = $user->getEmail();
 
-//     // Use these details to create a new profile
-//     printf('Hello %s!', $user->getFirstname());
-
-// } catch (Exception $e) {
-
-//     // Failed to get user details
-//     exit('Oh dear...');
-// }
+// $stmt = DB::getInstance()->prepare("INSERT INTO users (`name`, mail) VALUES (:username, :usermail)" );
+// $stmt->execute([
+//     ':username' => $username,
+//     ':usermail' => $usermail,
+// ]);
 
 // // Use this to interact with an API on the users behalf
 $_SESSION['token'] = serialize($token);
 // $_SESSION['code'] = $_GET['code'];
-$_SESSION['user'] = serialize($user);
+//$_SESSION['user'] = serialize($user);
 
 // printf($_SESSION['token']);
 header('Location: http://localhost/mapams/');

@@ -65,11 +65,10 @@
           <img src="images/favicon.ico" width="30" height="30" class="d-inline-block align-text-top">
           MSka
         </a>
-        <span class="navbar-text">
-          {{username}}
-        </span>
+        
         {% if username != "" %}
           <span class="navbar-text">
+            Hi {{username}}! 
             <button type="button" id="loc_button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModal2">Groups</button>
             {# <a class="nav-link" href="signin.php">Login</a> #}
           </span>
@@ -164,12 +163,17 @@
                 {# <label for="inputDescription" class="form-label">Description</label> #}
                 <textarea class="form-control" id="inputDescription" type="text" placeholder="Description" style="height: 10rem;"  name="description"></textarea>
               </div>
-            </div>
-            <div class="modal-footer">
+            
               
-              <button type="submit" name="submit" value="link" class="btn btn-dark">Generate Link</button>
+              <p>
+                <div class="btn-group d-flex" role="group" aria-label="Basic outlined example">
+                  <button type="submit" name="submit" value="link" class="btn btn-dark w-100">Generate Link</button>
+                  <button type="submit" name="submit" value="submit" class="btn btn-primary w-100">Submit</button>
+                </div>
+              </p>
+              {# <button type="submit" name="submit" value="link" class="btn btn-dark">Generate Link</button>
               <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> #}
 
             </div>
           </form>
@@ -186,21 +190,33 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h2 class="fs-5">Create or join new group</h2>
-            <p>
-              <form action="groups.php" method="POST">
-                <div class="btn-group d-flex" role="group" aria-label="Basic outlined example">
-                  <button type="submit" name="submit" value="join" class="btn btn-outline-secondary">Join</button>
-                  <button type="submit" name="submit" value="create" class="btn btn-outline-secondary">Create</button>
-                </div>
-              </form>
-            </p>
+            <form action="groups.php" method="POST">
+              
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Group's Code" aria-label="Group's Code" aria-describedby="button-addon2" name="code">
+                <button type="submit" name="submit" value="join" class="btn btn-outline-secondary" id="button-addon2">Join</button>
+              </div>
+                
+              {# <div class="btn-group d-flex" role="group" aria-label="Basic outlined example">
+                <button type="submit" name="submit" value="join" class="btn btn-outline-secondary">Join</button>
+                <button type="submit" name="submit" value="create" class="btn btn-outline-secondary">Create</button>
+              </div> #}
+              
+              
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Group's Name" aria-label="Group's Name" aria-describedby="button-addon2" name="name">
+                <button type="submit" name="submit" value="create" class="btn btn-outline-secondary" id="button-addon3">Create</button>
+              </div>
+            </form>
+
             <hr>
             <h2 class="fs-5">My groups</h2>
+
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
               <label class="form-check-label" for="inlineCheckbox1">Public</label>
             </div>
+
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
               <label class="form-check-label" for="inlineCheckbox2">?</label>

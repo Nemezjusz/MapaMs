@@ -28,9 +28,10 @@
       {# <button onclick="copyToClipboard()">Copy text</button>  #}
         
         {% for row in rows %}
-          <a href="fb-messenger://share/?link=http://192.168.0.18/mapams/generated?link={{row.link_id}}" class="icon-link" style="text-align: right;">
+          <button type="submit" onclick="location.href='fb-messenger://share/?link=http://192.168.0.18/mapams/generated?link={{row.link_id}}';" class="btn btn-sm btn-outline-primary">Send <span><i class="bi bi-messenger"></i></span></button>
+          {# <a href="fb-messenger://share/?link=http://192.168.0.18/mapams/generated?link={{row.link_id}}" class="icon-link" style="text-align: right;">
             <i class="bi bi-messenger"></i>
-          </a>
+          </a> #}
         {% endfor %}             
       </span>
       
