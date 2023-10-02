@@ -94,23 +94,23 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
 //     }
 // }
 
-$provider = new Stevenmaguire\OAuth2\Client\Provider\Microsoft([
-    'clientId'                  => 'd0bc29af-27dc-4483-b433-45bb1dd47177',
-    'clientSecret'              => '14H8Q~Yauss75FDfO_14aZsuKU.JrFd2621onbjU',
-    'redirectUri'               => 'http://localhost/mapams/callback.php',
-]);
+// $provider = new Stevenmaguire\OAuth2\Client\Provider\Microsoft([
+//     'clientId'                  => 'd0bc29af-27dc-4483-b433-45bb1dd47177',
+//     'clientSecret'              => '14H8Q~Yauss75FDfO_14aZsuKU.JrFd2621onbjU',
+//     'redirectUri'               => 'http://localhost/mapams/callback.php',
+// ]);
 
-if (isset($_SESSION['token'])){
-    //$user = unserialize($_SESSION['user']);
+// if (isset($_SESSION['token'])){
+//     //$user = unserialize($_SESSION['user']);
     
-    $token = unserialize($_SESSION['token']);
-    $user =  $provider->getResourceOwner($token);
-    $username = $user->getFirstname();
+//     $token = unserialize($_SESSION['token']);
+//     $user =  $provider->getResourceOwner($token);
+//     $username = $user->getFirstname();
 
 
-} else {
-    $username = "";
-}
+// } else {
+//     $username = "";
+// }
 
 
 
@@ -124,5 +124,5 @@ if (isset($_SESSION['token'])){
 
  print TwigHelper::getInstance()->render('main.html', [
     'example1' => $example1,
-    'username' => $username,
+    // 'username' => $username,
 ]);
