@@ -9,14 +9,3 @@ console.log("ratio: "+ ratio);
 var marker = document.getElementById("marker"+String(id))
 marker.style.left = (x/ratio) + "px";
 marker.style.top = (y/ratio) + "px";
-
-
-function showPopup(id) {
-    var popup = document.getElementById("popup"+String(id));
-    popup.style.display = "block";
-}
-
-function hidePopup(id) {
-    var popup = document.getElementById("popup"+String(id));
-    popup.style.display = "none";
-}

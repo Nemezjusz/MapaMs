@@ -12,53 +12,9 @@
 
   </head>
 <body>
-    <!-- navbar 1 -->
-    {# <nav class="navbar navbar-dark fixed-top bg-dark" aria-label="Dark offcanvas navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">MSka</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarDark" aria-controls="offcanvasNavbarDark">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbarDark" aria-labelledby="offcanvasNavbarDarkLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasNavbarDarkLabel">Offcanvas</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Login
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                      <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-              <form class="d-flex mt-3" role="search">
-                <form action="" method="POST">
-                  <input type="text" name="search" placeholder="Name">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
-                
-              </form>
-            </div>
-          </div>
-        </div>
-    </nav> #}
-    <!-- navbar 2 -->
-    {#  #}
+
+    <!-- navbar  -->
+ 
     <nav class="navbar navbar-dark fixed-top bg-dark"> 
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
@@ -70,24 +26,6 @@
             
         </span>
 
-        {# {% if username != "" %} #}
-          {# <span class="navbar-text"> #}
-            {# Hi {{username}}!  #}
-            {# <button type="button" id="loc_button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModal2">Groups</button> #}
-            {# <a class="nav-link" href="signin.php">Login</a> #}
-          {# </span> #}
-        {# {% else %} #}
-          {# <span class="navbar-text"> #}
-            {# <form action="signin.php"> #}
-              {# <input class="btn btn-sm btn-outline-light" type="submit" value="Log in"> #}
-            {# </form> #}
-            {# <a class="nav-link" href="signin.php">Login</a> #}
-          {# </span> #}
-        {# {% endif %} #}
-        
-
-        
-        
       </div>
     </nav>
 
@@ -98,14 +36,14 @@
       <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Save Location</h4>
+            <h4 class="modal-title">Location Info</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <form action="" method="POST">
             <div class="modal-body">
               <div class="mb-3">
                 {# <label for="inputName" class="form-label">Name</label> #}
-                <input type="text" class="form-control" id="inputName" placeholder="Name" name="name">
+                <input type="text" class="form-control" id="inputName" placeholder="Your Name" name="name">
               </div>
               <div class="mb-3">
                 {# <label for="inputDescription" class="form-label">Description</label> #}
@@ -169,7 +107,7 @@
       
       {% for row in example1 %}
         
-
+        <!-- modal event-->
         {{('<div class="modal fade" id="myModal'~row.id~'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">')|raw}}
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

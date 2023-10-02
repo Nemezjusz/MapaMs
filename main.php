@@ -50,79 +50,10 @@ if (isset($_POST['name']) && isset($_POST['description']) && isset($_COOKIE['loc
 }
 
 
-
-// use myPHPnotes\Microsoft\Auth;
-// use myPHPnotes\Microsoft\Handlers\Session;
-// use myPHPnotes\Microsoft\Models\User;
-
-// if (isset($_GET['code'])){
-//     $auth = new Auth(Session::get("tenant_id"), Session::get("client_id"), Session::get("client_secret"), Session::get("redirect_uri"), Session::get("scopes"));
-//     $tokens = $auth->getToken($_REQUEST['code']);
-//     $accessToken = $tokens->access_token;
-//     $auth->setAccessToken($accessToken);
-//     $user = new User;
-    
-//     $username = $user->data->getDisplayName();
-//     $user_mail = $user->data->getUserPrincipalName() ;
-    
-// }
-// else{
-//     $user_mail = "";
-//     $username = "";
-// }
-
-/*
- * Przykład 2: pobranie z bazy danych tylko osób o wskazanym imieniu i powiększenie wszystkich liter nazwiska
- *
- * Na początku $example2 jest pustą tablicą. Jeżeli otrzymaliśmy z formularza pole "search" to wykonujemy zapytanie,
- * które szuka rekordów z podanym imieniem. Na końcu, za pomocą prostej pętli while i metody "fetch" pobieramy każdy
- * rekord oddzielnie. Każdy wiersz trafia do tablicy $row. Specjalna stała PDO::FETCH_ASSOC podana jako argument
- * powoduje, że każdy wiersz w pętli zostanie zwrócony jako tablica asocjacyjna, gdzie klucze będą nazwami kolumn.
- *
- * Przed dodaniem wiersza do tablicy wynikowej $example2, korzystamy z funkcji "strtoupper", aby zamienić w nazwisku
- * wszystkie małe litery na wielkie.
-*/
-
-// $example2 = [];
-
-// if (isset($_POST['search'])) {
-//     $stmt = DB::getInstance()->prepare("SELECT id, `name`, surname FROM test WHERE `name` = :search");
-//     $stmt->execute([':search' => $_POST['search']]);
-//     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-//         $row['surname'] = strtoupper($row['surname']);
-//         $example2[] = $row;
-//     }
-// }
-
-// $provider = new Stevenmaguire\OAuth2\Client\Provider\Microsoft([
-//     'clientId'                  => 'd0bc29af-27dc-4483-b433-45bb1dd47177',
-//     'clientSecret'              => '14H8Q~Yauss75FDfO_14aZsuKU.JrFd2621onbjU',
-//     'redirectUri'               => 'http://localhost/mapams/callback.php',
-// ]);
-
-// if (isset($_SESSION['token'])){
-//     //$user = unserialize($_SESSION['user']);
-    
-//     $token = unserialize($_SESSION['token']);
-//     $user =  $provider->getResourceOwner($token);
-//     $username = $user->getFirstname();
-
-
-// } else {
-//     $username = "";
-// }
-
-
-
-/*
- * Wyrenderowanie podstrony z przekazaniem do niej tablic wynikowych z trzech przykładów.
- */
-
- $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_id, author_name, group_id FROM pins");
+ $stmt = DB::getInstance()->prepare("SELECT id, loc_x, loc_y, `desc`, author_name FROM pins");
  $stmt->execute();
  $example1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
  print TwigHelper::getInstance()->render('main.html', [
     'example1' => $example1,
-    // 'username' => $username,
 ]);
