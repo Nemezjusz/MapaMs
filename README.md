@@ -1,17 +1,20 @@
 # MapaMs
 Interaktywna mapa Miasteczka Studenckiego AGH została stworzona, aby ułatwić odnajdywanie się na często bardzo zatłoczonym MS-ie. 
-Tworzenie tej webowej aplikacji poszerzyło moją wiedze w wielu obszarach. Nauczyłem się tworzyć estetyczne strony internetowe, stawiać servery, 
-zgłębiłem wiedze na temat baz danych i zapewne nabyłem pare innych umiejętności o których zapomniałem. Bardzo dobrz pracowało mi się na tym projektem, 
-bo zarówno rozwiązuje dotykający mnie problem a także wiele mnie nauczył. 
+Tworzenie tej webowej aplikacji poszerzyło moją wiedze w wielu obszarach między innymi w bazach danych, serwerach i stronach internetowych.
+Bardzo dobrz pracowało mi się na tym projektem, bo zarówno rozwiązuje dotykający mnie problem a także wiele mnie nauczył. 
 <br>
-
 
 ![ms1](https://github.com/Nemezjusz/MapaMs/assets/50834734/ed7a652f-644f-4cff-aaa2-22f294f42a4c)
 
 
 ## Funkcjonalności
 
-MSka oferuje dwie główne funkcje. Pierwszą jest dodanie swojej lokalizacji wraz z opisem do publicznej mapy, która jest widoczna w postaci 
+MSka oferuje dwie główne funkcje:
+* Lokalizacja publiczna
+* Wysyłanie prywatnego linku
+
+
+Pierwszą jest dodanie swojej lokalizacji wraz z opisem do publicznej mapy, która jest widoczna w postaci 
 charakterystycznego czerwonego astronauty. Można ją wykorzystać w celu szukania znajomych do wspólnych aktywości. Po umieszczeniu na mapie 
 swojego znacznika inni użytkownicy mogą na niego nacisnąć w celu uzyskania dokładnego opisu.
 
