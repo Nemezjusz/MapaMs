@@ -13,14 +13,17 @@ MSka oferuje dwie główne funkcje:
 * Lokalizacja publiczna
 * Wysyłanie prywatnego linku
 
+Po wejściu na strone ukazuje nam się mapa oraz umieszczone na niej znaczniki. Nasz znacznik odróżnia się od innych kolorem - jest niebieski.
+Możemy umieścić go w dowolnym miejscu a następnie kliknąć w przyciski **Set Location**, aby mieć możliwość podjęcia jednej z dwóch akcji.
 
-Pierwszą jest dodanie swojej lokalizacji wraz z opisem do publicznej mapy, która jest widoczna w postaci 
-charakterystycznego czerwonego astronauty. Można ją wykorzystać w celu szukania znajomych do wspólnych aktywości. Po umieszczeniu na mapie 
+### Lokalizacja publiczna
+Pierwszą z nich jest dodanie swojej lokalizacji wraz z opisem do publicznej mapy, która jest widoczna w postaci 
+charakterystycznego *czerwonego astronauty*. Można ją wykorzystać w celu szukania znajomych do wspólnych aktywości. Po umieszczeniu na mapie 
 swojego znacznika inni użytkownicy mogą na niego nacisnąć w celu uzyskania dokładnego opisu.
 
 ![ms2](https://github.com/Nemezjusz/MapaMs/assets/50834734/62130e98-3db7-4c97-9511-02c46b853678)
 
-
+### Wysyłanie prywatnego linku
 Druga opcja pozwala na wygenerowanie linku z pozycją, widocznego tylko dla osoby generującej i dla osób dla których zostanie on udostepniony. 
 Pozwala ona na łatwe zlokalizowanie sie ze znajomymi bez konieczności udostępniania lokalizacji dla wszystkich. Po wygenerowaniu linku jesteśmy w stanie 
 go bardzo łatwo udostępnić dzięki przyciskowi, który przekierowuje nas bespośrednio do Messengera.
