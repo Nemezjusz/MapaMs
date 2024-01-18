@@ -9,21 +9,21 @@ Working on this project was very beneficial for me because it not only solved a 
 ![ms1](https://github.com/Nemezjusz/MapaMs/assets/50834734/2a661e9f-d2cb-4edd-a443-e3f7b0eb7bbf)
 
 
-##Features
+## Features
 
 MapaMs offers two main functionalities:
-*Public Location
-*Sending a private link
+* Public Location
+* Sending a private link
 
 Upon entering the website, a map with markers is displayed. Our marker stands out from others with its blue color. 
 We can place it anywhere and then click the Set Location button to choose one of two actions.
-###Public Location
+### Public Location
 
 The first option is to add our location with a description to the public map, visible in the form of a distinctive red astronaut. It can be used to find friends for joint activities. After placing our marker on the map, other users can click on it to get a detailed description.
 
 ![ms2](https://github.com/Nemezjusz/MapaMs/assets/50834734/62130e98-3db7-4c97-9511-02c46b853678)
 
-###Sending a Private Link
+### Sending a Private Link
 The second option allows generating a link with the position visible only to the generator and the people it is shared with. 
 It enables easy location sharing with friends without revealing it to everyone. After generating the link, we can easily 
 share it using the button that redirects us directly to Messenger.
