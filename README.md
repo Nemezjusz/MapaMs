@@ -1,4 +1,6 @@
 # MapaMs
+Choose language:
+
 [![pl](https://img.shields.io/badge/lang-pl-red.svg)](https://github.com/Nemezjusz/MapaMs/blob/main/README.pl.md)
 <br>
 
