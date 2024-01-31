@@ -1,8 +1,9 @@
 # MapaMs
-Choose language:
 
-[![pl](https://img.shields.io/badge/lang-pl-red.svg)](https://github.com/Nemezjusz/MapaMs/blob/main/README.pl.md)
-<br>
+> You can choose language:
+> 
+> [![pl](https://img.shields.io/badge/lang-pl-red.svg)](https://github.com/Nemezjusz/MapaMs/blob/main/README.pl.md)
+
 
 The interactive map of the AGH Student Campus was created to facilitate navigation in the often crowded MS (Miasteczko Studenckie). 
 Developing this web application expanded my knowledge in various areas, including databases, servers, and websites. 
