@@ -1,5 +1,5 @@
 # MapaMs - Obsolete Version
-### New Version is made using React/Django
+### New Version is made using *React + Django*
 > You can choose language:
 > 
 > [![pl](https://img.shields.io/badge/lang-pl-red.svg)](https://github.com/Nemezjusz/MapaMs/blob/main/README.pl.md)
